@@ -10,7 +10,8 @@ circleci local execute \
   -e "AWS_REGION=us-east-1" \
   -e "AWS_ZONE=us-east-1b" \
   -e "AWS_SECURITY_GROUP=$AWS_SECURITY_GROUP_US_EAST_1" \
-  -e "AWS_VPC=$AWS_VPC"
+  -e "AWS_VPC=$AWS_VPC" \
+  -e "AWS_AMI=$AWS_AMI_US_EAST_1"
 
 circleci local execute --job build-ami-us-west-2 \
   -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
@@ -18,5 +19,5 @@ circleci local execute --job build-ami-us-west-2 \
   -e "AWS_REGION=us-east-1" \
   -e "AWS_ZONE=us-east-1b" \
   -e "AWS_SECURITY_GROUP=$AWS_SECURITY_GROUP_US_WEST_2" \
-  -e "AWS_VPC=$AWS_VPC"
-
+  -e "AWS_VPC=$AWS_VPC" \
+  -e "AWS_AMI=$AWS_AMI_US_WEST_2"

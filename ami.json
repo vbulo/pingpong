@@ -4,7 +4,8 @@
     "aws_secret_key": "",
     "aws_region": "{{env `AWWS_REGION`}}",
     "aws_zone": "{{env `AWWS_ZONE`}}",
-    "aws_security_group": "{{env `AWWS_SECURITY_GROUP`}}"
+    "aws_security_group": "{{env `AWWS_SECURITY_GROUP`}}",
+    "aws_ami": "[[env `AWS_AMI`]]"
   },
   "builders": [
     {
