@@ -21,10 +21,13 @@ jobs:
       - run:
           name: Lint node
           command: |
-            echo dir $PWD
-            ls
             yarn lint
-            exit 1
+
+      - run:
+          name: Lint bash scripts
+          command: |
+            scripts/circleci/install-shellcheck
+            shellcheck scripts/circleci/*
 
   build-ami:
     docker:
@@ -39,10 +42,6 @@ jobs:
 
       - node/install:
           install-yarn: true
-
-      - restore_cache:
-          keys:
-          - pingpong-dependencies-{{ checksum "package.json" }}
 
       - run:
           name: Install dependencies
