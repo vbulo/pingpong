@@ -1,0 +1,40 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "aws_region": "{{env `AWWS_REGION`}}",
+    "aws_zone": "{{env `AWWS_ZONE`}}",
+    "aws_security_group": "{{env `AWWS_SECURITY_GROUP`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `aws_region`}}",
+      "availability_zone": "{{user `aws_zone`}}",
+      "security_group_id": "{{user `aws_security_group`}}",
+      "source_ami": "{{user `aws_ami`}}",
+      "instance_type": "t3a.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "pingpong-{{timestamp}}",
+      "tags": {
+        "app": "pingpong",
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "./",
+      "destination": "/tmp/"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo chmod 700 /tmp/scripts/entrypoint",
+        "sudo /tmp/scripts/entrypoint"
+      ]
+    }
+  ]
+}

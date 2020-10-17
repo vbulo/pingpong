@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+
+yum update -y
+
+# Configure pingpong user
+useradd pingpong
+usermod -s /bin/bash pingpong
+
+# Install code
+mv /tmp/*.js /home/pingpong
+mv /tmp/node_modules /home/pingpong
+mv /tmp/package.json /home/pingpong
+mv /tmp/yarn.lock /home/pingpong
+
+chown -Rf /home/pingpong
+chgrp -Rf /home/pingpong
+
+# Install node
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install node
+
+# Setup pingpong as a linux service
+mv /tmp/upstart.conf /etc/init/pingpong.conf
+
+rm -rf /tmp/*
