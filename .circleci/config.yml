@@ -1,0 +1,97 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.1.0
+
+jobs:
+  test:
+    docker:
+      - image: 'cimg/base:stable'
+
+    steps:
+      - checkout
+
+      - node/install:
+          install-yarn: true
+
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile
+
+      - run:
+          name: Lint node
+          command: |
+            echo dir $PWD
+            ls
+            yarn lint
+            exit 1
+
+  build-ami:
+    docker:
+      - image: 'cimg/base:stable'
+
+    parameters:
+      region:
+        type: string
+
+    steps:
+      - checkout
+
+      - node/install:
+          install-yarn: true
+
+      - restore_cache:
+          keys:
+          - pingpong-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile
+
+      - run:
+          name: Build << parameters.region >> AMI
+          command: |
+            ./scripts/circleci/install-packer
+            ./scripts/circleci/build-ami-<< parameters.region >>
+
+  deploy:
+    docker:
+      - image: 'cimg/base:stable'
+
+    steps:
+      - checkout
+
+      - run:
+          name: Upload deploy functions to lambda
+          command: |
+            ./scripts/deploy-functions
+            ./scripts/deploy
+
+workflows:
+  build:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - master
+      - build-ami:
+          name: build-ami-us-east-1
+          region: us-east-1
+          filters:
+            branches:
+              only: master
+      - build-ami:
+          name: build-ami-us-west-2
+          region: us-west-2
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build-ami-us-east-1
+            - build-ami-us-west-2
+          filters:
+             branches:
+               only: master
+
