@@ -1,0 +1,8 @@
+#!/bin/bash
+set -euo pipefail
+
+# Define variables for packer
+export AWS_REGION=us-east-1
+export AWS_ZONE=us-east-1b
+
+packer build ami.json

@@ -3,17 +3,18 @@ set -euo pipefail
 
 export $(cat packer.env | xargs)
 
-circleci local execute --job build-ami \
+circleci local execute \
+  --job build-ami-us-east-1 \
   -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
-  -e "AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY" \
+  -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" \
   -e "AWS_REGION=us-east-1" \
   -e "AWS_ZONE=us-east-1b" \
   -e "AWS_SECURITY_GROUP=$AWS_SECURITY_GROUP_US_EAST_1" \
   -e "AWS_VPC=$AWS_VPC"
 
-circleci local execute --job build-ami \
+circleci local execute --job build-ami-us-west-2 \
   -e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
-  -e "AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY" \
+  -e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" \
   -e "AWS_REGION=us-east-1" \
   -e "AWS_ZONE=us-east-1b" \
   -e "AWS_SECURITY_GROUP=$AWS_SECURITY_GROUP_US_WEST_2" \
