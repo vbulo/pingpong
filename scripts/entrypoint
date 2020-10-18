@@ -13,8 +13,8 @@ mv /tmp/node_modules /home/pingpong
 mv /tmp/package.json /home/pingpong
 mv /tmp/yarn.lock /home/pingpong
 
-chown -Rf /home/pingpong
-chgrp -Rf /home/pingpong
+chown -Rf pingpong /home/pingpong
+chgrp -Rf pingpong /home/pingpong
 
 # Install node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
