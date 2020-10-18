@@ -5,8 +5,8 @@
     "aws_region": "{{env `AWWS_REGION`}}",
     "aws_zone": "{{env `AWWS_ZONE`}}",
     "aws_security_group": "{{env `AWWS_SECURITY_GROUP`}}",
-    "aws_vpc": "{{user `AWS_VPC`}}",
-    "aws_subnet": "{{user `AWS_SUBNET`}}",
+    "aws_vpc": "{{env `AWS_VPC`}}",
+    "aws_subnet": "{{env `AWS_SUBNET`}}",
     "aws_ami": "{{env `AWS_AMI`}}"
   },
   "builders": [
