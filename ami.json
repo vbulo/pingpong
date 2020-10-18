@@ -5,6 +5,8 @@
     "aws_region": "{{env `AWWS_REGION`}}",
     "aws_zone": "{{env `AWWS_ZONE`}}",
     "aws_security_group": "{{env `AWWS_SECURITY_GROUP`}}",
+    "aws_vpc": "{{user `AWS_VPC`}}",
+    "aws_subnet": "{{user `AWS_SUBNET`}}",
     "aws_ami": "{{env `AWS_AMI`}}"
   },
   "builders": [
@@ -15,6 +17,9 @@
       "region": "{{user `aws_region`}}",
       "availability_zone": "{{user `aws_zone`}}",
       "security_group_id": "{{user `aws_security_group`}}",
+      "vpc_id": "{{user `aws_vpc`}}",
+      "subnet_id": "{{user `aws_subnet`}}",
+      "associate_public_ip_address": true,
       "source_ami": "{{user `aws_ami`}}",
       "instance_type": "t3a.micro",
       "ssh_username": "ec2-user",
